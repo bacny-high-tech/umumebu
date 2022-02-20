@@ -12,18 +12,18 @@ error_reporting(0);
         $quantite = $_POST['quantite'];
         $prix_unit = $_POST['prix_unit'];
 
-$repq=$db->query("select * from article where categorie='$categorie' and dimension='$dimension'");
+$repq=$db->query("select * from umamebu.article where categorie='$categorie' and dimension='$dimension'");
 foreach ($repq as $nb);
  $quantiteTot='';
   $quantiteTot = $nb['quantite']+$_POST['quantite'];
 /*$total_quantity += $item["quantity"];*/
 if ($nb) {
-$req=$db->query('UPDATE article SET quantite="'.$quantiteTot.'" WHERE categorie="'.$categorie.'" and dimension="'.$dimension.'"');
+$req=$db->query('UPDATE umamebu.article SET quantite="'.$quantiteTot.'" WHERE categorie="'.$categorie.'" and dimension="'.$dimension.'"');
   
    }
   else{
 
-    $reqt=$db->query("INSERT INTO `article` (`id_prod`, `type`, `categorie`, `dimension`, `quantite`, `prix_unit`) VALUES ('','$type','$categorie','$dimension','$quantite','$prix_unit')");
+    $reqt=$db->query("INSERT INTO umamebu.article (type, categorie, dimension, quantite, prix_unit) VALUES ($type','$categorie','$dimension','$quantite','$prix_unit')");
 
     if ($reqt) {
        ?> <SCRIPT LANGUAGE="Javascript">alert("L\'ajout  est effectué avec succés!");</SCRIPT> <?php

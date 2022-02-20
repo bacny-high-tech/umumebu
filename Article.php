@@ -2,70 +2,54 @@
 <html>
 <head>
 	<title>umamebu</title>
-	<style>
- 
-      .form{
-       	      
-             width:1040px;
-             height:600px;
-             border: 1px solid black;
-       }
-      .envoie
-        {
-            height: 30px;
-            width: 120px;
-        }
-         fieldset{
-          
-             height: auto;
-             margin-left: 285px;
-             float: left;
-             border: 0px solid blue;
-             background-color: #b8b8b8;
-         }
-label{
-  font-weight: bold;
-   float: left;
-}
-table{
-  width: 670px;
-  margin-left: 325px;
-  float: left;
-}
-
-	</style>
-  <link rel="stylesheet" type="text/css" href="css/style.css"> 
+	 <link rel="stylesheet" type="text/css" href="css/style.css"> 
+  <link rel="stylesheet" type="text/css" href="css/easyadmin/app.css"> 
 </head>
 
 <body>
-<?php
+ <?php
    include("entete.php");
-   ?>
-	  <?php    if(($_SESSION['NIV']==0)||($_SESSION['NIV']==2)){ ?>
-	<div class="form">
+   ?> 
+
+   <div class="row">
+    <?php    if(($_SESSION['NIV']==0)||($_SESSION['NIV']==2)){ ?>
+  <div class="form col-md-5">
     <center>
     <fieldset>
-      <form method="post" action="enregistrArt.php">
-        <label>TYPE PRODUIT:</label><input type="text" name="produit" placeholder="Type produit"size="80%" required/><br/><br>
-        <label>CATEGORIE:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="categorie" placeholder="categorie du produit" size="80%" required/><br/><br>
-        <label>DIMENSION:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="dimension" placeholder=" dimension " size="80%" required/><br/><br>
-        <label>QUANTITE:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="quantite" placeholder="Quantite du produit" size="80%" required/><br/><br>
-        <label>PRIX UNITAIRE:</label><input type="text" name="prix_unit" placeholder="Prix du produit" size="80%" required/><br/><br>
-        <p><input type="submit" value="Valider" name="save" class="envoie">
-        <input type="reset" value="Mettre à zero" class="envoie"></p>
+      <h3 class="left">Nouveau produit</h3>
+      <form method="post" class =" mt-3" action="enregistrArt.php">
+        <div class="mb-3">
+          <input type="text" class="form-control form-control-sm" name="produit" placeholder="le nom du produit">
+        </div>
+        <div class="mb-3">
+          <input type="text" class="form-control form-control-sm" name="categorie" placeholder="categorie du produit">
+        </div>
+        <div class="mb-3">
+          <input type="type" class="form-control form-control-sm" name="dimension" placeholder="dimension">
+        </div>
+        <div class="mb-3">
+          <input type="text" class="form-control form-control-sm" name="quantite" placeholder="quantite">
+        </div>
+        <div class="mb-3">
+           <input type="text" class="form-control form-control-sm" name="prix_unit" placeholder="le prix du produit">
+         </div>
+       <p class="d-grid gap-2 d-md-flex justify-content-md-end"><input type="submit" value="Valider" name="save" class="btn btn-primary btn-sm">
+        <input type="reset" value="Mettre à zero" class="btn btn-primary btn-sm"></p>
 
       </form>
     </fieldset>
 </center>
-	</div>
+  </div>
 <?php } ?>
-<?php
-   require_once("connect.php");
+
+<?php require_once("connect.php");
 
   $reponse=$db->query('SELECT * FROM umamebu.article where etat=1');
+
  try{ ?>
-<center>
-  <table border=1  cellspacing="0">
+  <div class="col-md-7 p-3 ">
+    <center class ="">
+  <table border=1  cellspacing="0" class="table " width="80%">
          <tr style="font-size:20px;"> <th colspan="8"> AFFICHE L'ARTICLE</th></tr>
      <tr>
        <th>ID</th>
@@ -75,9 +59,8 @@ table{
        <th>Quantité</th>
        <th>Prix Unitaire</th>
         <?php    if(($_SESSION['NIV']==0)||($_SESSION['NIV']==2)){ 
-            echo '<th colspan="2">Action</th>'; 
-             }  ?>
-       
+            echo '<th colspan="">Action</th>'; 
+             }  ?>       
      </tr>
 
      <?php 
@@ -90,28 +73,30 @@ table{
            <td><?php echo($ligne['quantite']); ?></td>
            <td><?php echo($ligne['prix_unit']); ?></td>
            <?php    if($_SESSION['NIV']==0){ ?>
-           <td style="background-color:#c0c0c0" cellspacing="0" border="0" align="left" ><a href="supprimerArt.php?idprod=<?php echo($ligne['id_prod'])?>" >Supprimer</a></td>
-           <?php  }  ?>
-
-           <?php    if(($_SESSION['NIV']==0)||($_SESSION['NIV']==2)){ ?>
-            <td style="background-color:#c0c0c0" cellspacing="0" border="0" align="left" ><a href="editerArt.php?idpro=<?php echo($ligne["id_prod"])?>"> Modifier</a></td> 
-           <?php  }  ?>
-           
+            <td>
+            <a href="supprimerArt.php?idprod=<?php echo($ligne['id_prod'])?>" >
+              <i class="fa fa-trash text-black mr-1"></i>
+            </a>
+            <a href="editerArt.php?idpro=<?php echo($ligne["id_prod"])?>">
+              <i class="fa fa-edit text-black mr-1"></i>
+            </a>
+          </td>
+             <?php  }  ?>           
         </tr>
      <?php } ?>
-
   </table>
-
   <?php  
-}catch(Exception $e){
-  die('<p> Erreur['.$e->getCode().']:'.$e->getMessage()."</p>");
-}
+    }catch(Exception $e){ die('<p> Erreur['.$e->getCode().']:'.$e->getMessage()."</p>");} ?>
 
+</center></div>
+
+
+
+</div>
+
+<?php
 include("pied.php");
 
 ?>
-
-</center>
-
 </body>
 </html>
